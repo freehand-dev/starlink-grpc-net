@@ -1,0 +1,23 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+import "spacex/api/device/common.proto";
+import "spacex/api/telemetron/public/common/time.proto";
+package SpaceX.API.Device;
+
+enum IfaceType {
+   IFACE_TYPE_UNKNOWN = 0;
+   IFACE_TYPE_ETH = 1;
+   IFACE_TYPE_RF_2GHZ = 2;
+   IFACE_TYPE_RF_5GHZ = 5;
+   IFACE_TYPE_RF_5GHZ_HIGH = 6;
+}
+
+message InflatedBasicServiceSet {
+  string bssid = 1;
+  string ssid = 2;
+  string mac_lan = 3;
+  string iface_name = 4;
+  SpaceX.API.Device.IfaceType iface_type = 5;
+  uint32 channel = 6;
+}
+

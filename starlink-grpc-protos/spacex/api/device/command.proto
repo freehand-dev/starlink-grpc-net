@@ -1,0 +1,26 @@
+syntax = "proto3";
+package SpaceX.API.Device;
+
+enum Capability {
+   READ = 0;
+   READ_INTERNAL = 13;
+   READ_PRIVATE = 7;
+   LOCAL = 14;
+   WRITE = 1;
+   WRITE_PERSISTENT = 11;
+   DEBUG = 2;
+   ADMIN = 3;
+   SETUP = 4;
+   SET_SKU = 5;
+   REFRESH = 6;
+   FUSE = 8;
+   RESET = 9;
+   TEST = 10;
+   SSH = 12;
+}
+
+message PublicKey {
+  string key = 1;
+  repeated SpaceX.API.Device.Capability capabilities = 2;
+}
+

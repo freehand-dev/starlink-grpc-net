@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "starlink-grpc-protos", "starlink-grpc-protos\starlink-grpc-protos.csproj", "{AE398D0A-BD8C-42E2-A7AD-EF7A208E6AEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{DDC6E783-0A08-4BBF-B50F-AD71F201E2DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dish-control", "dish-control\dish-control.csproj", "{F04494A1-94EA-4250-909F-E84EB5A15EA2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dish-get-config", "dish-get-config\dish-get-config.csproj", "{9DF3D34A-B7E2-49B1-AF85-7EC373CC1841}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dish-get-status", "dish-get-status\dish-get-status.csproj", "{731275C7-C0D6-4174-8B66-78B2876C9290}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "starlink-proto-dump", "starlink-proto-dump\starlink-proto-dump.csproj", "{F31820AF-0434-4E78-887C-C6E1104B1B86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dish-status-watcher", "dish-status-watcher\dish-status-watcher.csproj", "{694D4968-7D4C-4C17-8281-F02EB3B9128E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE398D0A-BD8C-42E2-A7AD-EF7A208E6AEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE398D0A-BD8C-42E2-A7AD-EF7A208E6AEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE398D0A-BD8C-42E2-A7AD-EF7A208E6AEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE398D0A-BD8C-42E2-A7AD-EF7A208E6AEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F04494A1-94EA-4250-909F-E84EB5A15EA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F04494A1-94EA-4250-909F-E84EB5A15EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F04494A1-94EA-4250-909F-E84EB5A15EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F04494A1-94EA-4250-909F-E84EB5A15EA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DF3D34A-B7E2-49B1-AF85-7EC373CC1841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DF3D34A-B7E2-49B1-AF85-7EC373CC1841}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DF3D34A-B7E2-49B1-AF85-7EC373CC1841}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DF3D34A-B7E2-49B1-AF85-7EC373CC1841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{731275C7-C0D6-4174-8B66-78B2876C9290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{731275C7-C0D6-4174-8B66-78B2876C9290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{731275C7-C0D6-4174-8B66-78B2876C9290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{731275C7-C0D6-4174-8B66-78B2876C9290}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F31820AF-0434-4E78-887C-C6E1104B1B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F31820AF-0434-4E78-887C-C6E1104B1B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F31820AF-0434-4E78-887C-C6E1104B1B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F31820AF-0434-4E78-887C-C6E1104B1B86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{694D4968-7D4C-4C17-8281-F02EB3B9128E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{694D4968-7D4C-4C17-8281-F02EB3B9128E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{694D4968-7D4C-4C17-8281-F02EB3B9128E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{694D4968-7D4C-4C17-8281-F02EB3B9128E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F04494A1-94EA-4250-909F-E84EB5A15EA2} = {DDC6E783-0A08-4BBF-B50F-AD71F201E2DA}
+		{9DF3D34A-B7E2-49B1-AF85-7EC373CC1841} = {DDC6E783-0A08-4BBF-B50F-AD71F201E2DA}
+		{731275C7-C0D6-4174-8B66-78B2876C9290} = {DDC6E783-0A08-4BBF-B50F-AD71F201E2DA}
+		{694D4968-7D4C-4C17-8281-F02EB3B9128E} = {DDC6E783-0A08-4BBF-B50F-AD71F201E2DA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E98776D-73A1-49C8-B577-A4489717FAB1}
+	EndGlobalSection
+EndGlobal

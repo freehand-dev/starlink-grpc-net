@@ -1,0 +1,500 @@
+syntax = "proto3";
+import "spacex/api/common/status/status.proto";
+import "spacex/api/device/command.proto";
+import "spacex/api/device/common.proto";
+import "spacex/api/device/dish.proto";
+import "spacex/api/device/transceiver.proto";
+import "spacex/api/device/wifi.proto";
+package SpaceX.API.Device;
+
+enum PositionSource {
+   AUTO = 0;
+   NONE = 1;
+   UT_INFO = 2;
+   EXTERNAL = 3;
+   GPS = 4;
+   STARLINK = 5;
+}
+
+enum SpeedtestError {
+   SPEEDTEST_ERROR_NONE = 0;
+   SPEEDTEST_ERROR_UNKNOWN = 1;
+   SPEEDTEST_ERROR_TOKEN = 2;
+   SPEEDTEST_ERROR_API = 3;
+   SPEEDTEST_ERROR_NO_RESULT = 4;
+   SPEEDTEST_ERROR_OFFLINE = 5;
+}
+
+message ToDevice {
+  oneof message {
+    SpaceX.API.Device.Request request = 1;
+    SpaceX.API.Device.HealthCheck health_check = 2;
+  }
+}
+
+message FromDevice {
+  oneof message {
+    SpaceX.API.Device.Response response = 1;
+    SpaceX.API.Device.Event event = 2;
+    SpaceX.API.Device.HealthCheck health_check = 3;
+  }
+}
+
+message HealthCheck {
+}
+
+message Request {
+  uint64 id = 1;
+  uint64 epoch_id = 14;
+  string target_id = 13;
+  oneof request {
+    SpaceX.API.Device.SignedData signed_request = 15;
+    SpaceX.API.Device.GetNextIdRequest get_next_id = 1006;
+    SpaceX.API.Device.AuthenticateRequest authenticate = 1005;
+    SpaceX.API.Device.EnableDebugTelemRequest enable_debug_telem = 1034;
+    SpaceX.API.Device.FactoryResetRequest factory_reset = 1011;
+    SpaceX.API.Device.GetDeviceInfoRequest get_device_info = 1008;
+    SpaceX.API.Device.GetHistoryRequest get_history = 1007;
+    SpaceX.API.Device.GetLogRequest get_log = 1012;
+    SpaceX.API.Device.GetNetworkInterfacesRequest get_network_interfaces = 1015;
+    SpaceX.API.Device.GetPingRequest get_ping = 1009;
+    SpaceX.API.Device.PingHostRequest ping_host = 1016;
+    SpaceX.API.Device.GetStatusRequest get_status = 1004;
+    SpaceX.API.Device.RebootRequest reboot = 1001;
+    SpaceX.API.Device.SetSkuRequest set_sku = 1013;
+    SpaceX.API.Device.SetTrustedKeysRequest set_trusted_keys = 1010;
+    SpaceX.API.Device.SpeedTestRequest speed_test = 1003;
+    SpaceX.API.Device.UpdateRequest update = 1014;
+    SpaceX.API.Device.GetLocationRequest get_location = 1017;
+    SpaceX.API.Device.GetHeapDumpRequest get_heap_dump = 1019;
+    SpaceX.API.Device.RestartControlRequest restart_control = 1020;
+    SpaceX.API.Device.FuseRequest fuse = 1021;
+    SpaceX.API.Device.GetPersistentStatsRequest get_persistent_stats = 1022;
+    SpaceX.API.Device.GetConnectionsRequest get_connections = 1023;
+    SpaceX.API.Device.StartSpeedtestRequest start_speedtest = 1027;
+    SpaceX.API.Device.GetSpeedtestStatusRequest get_speedtest_status = 1028;
+    SpaceX.API.Device.ReportClientSpeedtestRequest report_client_speedtest = 1029;
+    SpaceX.API.Device.InitiateRemoteSshRequest initiate_remote_ssh = 1030;
+    SpaceX.API.Device.SelfTestRequest self_test = 1031;
+    SpaceX.API.Device.SetTestModeRequest set_test_mode = 1032;
+    SpaceX.API.Device.SoftwareUpdateRequest software_update = 1033;
+    SpaceX.API.Device.DishStowRequest dish_stow = 2002;
+    SpaceX.API.Device.StartDishSelfTestRequest start_dish_self_test = 2012;
+    SpaceX.API.Device.DishGetContextRequest dish_get_context = 2003;
+    SpaceX.API.Device.DishGetObstructionMapRequest dish_get_obstruction_map = 2008;
+    SpaceX.API.Device.DishSetEmcRequest dish_set_emc = 2007;
+    SpaceX.API.Device.DishGetEmcRequest dish_get_emc = 2009;
+    SpaceX.API.Device.DishSetConfigRequest dish_set_config = 2010;
+    SpaceX.API.Device.DishGetConfigRequest dish_get_config = 2011;
+    SpaceX.API.Device.DishPowerSaveRequest dish_power_save = 2013;
+    SpaceX.API.Device.TransceiverIFLoopbackTestRequest transceiver_if_loopback_test = 4001;
+    SpaceX.API.Device.TransceiverGetStatusRequest transceiver_get_status = 4003;
+    SpaceX.API.Device.TransceiverGetTelemetryRequest transceiver_get_telemetry = 4004;
+    SpaceX.API.Device.WifiGetClientsRequest wifi_get_clients = 3002;
+    SpaceX.API.Device.WifiGetDiagnosticsRequest wifi_get_diagnostics = 3008;
+    SpaceX.API.Device.WifiGetPingMetricsRequest wifi_get_ping_metrics = 3007;
+    SpaceX.API.Device.WifiSetConfigRequest wifi_set_config = 3001;
+    SpaceX.API.Device.WifiGetConfigRequest wifi_get_config = 3009;
+    SpaceX.API.Device.WifiSetupRequest wifi_setup = 3003;
+    SpaceX.API.Device.WifiSetMeshDeviceTrustRequest wifi_set_mesh_device_trust = 3012;
+    SpaceX.API.Device.WifiSetMeshConfigRequest wifi_set_mesh_config = 3013;
+    SpaceX.API.Device.WifiGetClientHistoryRequest wifi_get_client_history = 3015;
+    SpaceX.API.Device.WifiSetClientGivenNameRequest wifi_set_client_given_name = 3017;
+    SpaceX.API.Device.WifiSetAviationConformedRequest wifi_set_aviation_conformed = 3016;
+  }
+}
+
+message Response {
+  uint64 id = 1;
+  SpaceX.API.Status.Status status = 2;
+  uint64 api_version = 3;
+  oneof response {
+    SpaceX.API.Device.GetNextIdResponse get_next_id = 1006;
+    SpaceX.API.Device.EnableDebugTelemResponse enable_debug_telem = 1034;
+    SpaceX.API.Device.FactoryResetResponse factory_reset = 1011;
+    SpaceX.API.Device.GetDeviceInfoResponse get_device_info = 1004;
+    SpaceX.API.Device.GetLogResponse get_log = 1012;
+    SpaceX.API.Device.GetNetworkInterfacesResponse get_network_interfaces = 1015;
+    SpaceX.API.Device.GetPingResponse get_ping = 1009;
+    SpaceX.API.Device.PingHostResponse ping_host = 1016;
+    SpaceX.API.Device.RebootResponse reboot = 1001;
+    SpaceX.API.Device.SpeedTestResponse speed_test = 1003;
+    SpaceX.API.Device.SetSkuResponse set_sku = 1013;
+    SpaceX.API.Device.SetTrustedKeysResponse set_trusted_keys = 1010;
+    SpaceX.API.Device.UpdateResponse update = 1014;
+    SpaceX.API.Device.GetLocationResponse get_location = 1017;
+    SpaceX.API.Device.GetHeapDumpResponse get_heap_dump = 1019;
+    SpaceX.API.Device.RestartControlResponse restart_control = 1020;
+    SpaceX.API.Device.FuseResponse fuse = 1021;
+    SpaceX.API.Device.GetConnectionsResponse get_connections = 1023;
+    SpaceX.API.Device.StartSpeedtestResponse start_speedtest = 1027;
+    SpaceX.API.Device.GetSpeedtestStatusResponse get_speedtest_status = 1028;
+    SpaceX.API.Device.ReportClientSpeedtestResponse report_client_speedtest = 1029;
+    SpaceX.API.Device.InitiateRemoteSshResponse initiate_remote_ssh = 1030;
+    SpaceX.API.Device.SelfTestResponse self_test = 1031;
+    SpaceX.API.Device.SetTestModeResponse set_test_mode = 1032;
+    SpaceX.API.Device.SoftwareUpdateResponse software_update = 1033;
+    SpaceX.API.Device.DishAuthenticateResponse dish_authenticate = 2005;
+    SpaceX.API.Device.DishGetContextResponse dish_get_context = 2003;
+    SpaceX.API.Device.DishGetHistoryResponse dish_get_history = 2006;
+    SpaceX.API.Device.DishGetStatusResponse dish_get_status = 2004;
+    SpaceX.API.Device.DishGetObstructionMapResponse dish_get_obstruction_map = 2008;
+    SpaceX.API.Device.DishStowResponse dish_stow = 2002;
+    SpaceX.API.Device.StartDishSelfTestResponse start_dish_self_test = 2012;
+    SpaceX.API.Device.DishSetEmcResponse dish_set_emc = 2007;
+    SpaceX.API.Device.DishGetEmcResponse dish_get_emc = 2009;
+    SpaceX.API.Device.DishSetConfigResponse dish_set_config = 2010;
+    SpaceX.API.Device.DishGetConfigResponse dish_get_config = 2011;
+    SpaceX.API.Device.TransceiverIFLoopbackTestResponse transceiver_if_loopback_test = 4001;
+    SpaceX.API.Device.TransceiverGetStatusResponse transceiver_get_status = 4003;
+    SpaceX.API.Device.TransceiverGetTelemetryResponse transceiver_get_telemetry = 4004;
+    SpaceX.API.Device.WifiAuthenticateResponse wifi_authenticate = 3005;
+    SpaceX.API.Device.WifiGetClientsResponse wifi_get_clients = 3002;
+    SpaceX.API.Device.WifiGetDiagnosticsResponse wifi_get_diagnostics = 3008;
+    SpaceX.API.Device.WifiGetHistoryResponse wifi_get_history = 3006;
+    SpaceX.API.Device.WifiGetPingMetricsResponse wifi_get_ping_metrics = 3007;
+    SpaceX.API.Device.WifiGetStatusResponse wifi_get_status = 3004;
+    SpaceX.API.Device.WifiSetConfigResponse wifi_set_config = 3001;
+    SpaceX.API.Device.WifiGetConfigResponse wifi_get_config = 3009;
+    SpaceX.API.Device.WifiSetupResponse wifi_setup = 3003;
+    SpaceX.API.Device.WifiGetPersistentStatsResponse wifi_get_persistent_stats = 3022;
+    SpaceX.API.Device.WifiSetMeshDeviceTrustResponse wifi_set_mesh_device_trust = 3012;
+    SpaceX.API.Device.WifiSetMeshConfigResponse wifi_set_mesh_config = 3013;
+    SpaceX.API.Device.WifiGetClientHistoryResponse wifi_get_client_history = 3015;
+  }
+}
+
+message Event {
+  oneof event {
+    SpaceX.API.Device.WifiNewClientConnectedEvent wifi_new_client_connected = 3001;
+    SpaceX.API.Device.WifiAccountBondingEvent wifi_account_bonding = 3002;
+    SpaceX.API.Device.WifiNewPeerEvent wifi_new_peer = 3003;
+  }
+}
+
+message EnableDebugTelemRequest {
+  uint32 duration_m = 1;
+}
+
+message EnableDebugTelemResponse {
+}
+
+message FactoryResetRequest {
+}
+
+message FactoryResetResponse {
+}
+
+message FuseRequest {
+}
+
+message FuseResponse {
+}
+
+message GetHistoryRequest {
+}
+
+message GetLogRequest {
+}
+
+message GetLogResponse {
+  string syslog = 1;
+  string offline_log = 2;
+}
+
+message GetPingRequest {
+}
+
+message GetPingResponse {
+  message ResultsEntry {
+    string key = 1;
+    SpaceX.API.Device.PingResult value = 2;
+  }
+  repeated SpaceX.API.Device.GetPingResponse.ResultsEntry results = 1;
+}
+
+message PingHostRequest {
+  string address = 3;
+}
+
+message PingHostResponse {
+  SpaceX.API.Device.PingResult result = 1;
+}
+
+message GetStatusRequest {
+}
+
+message RebootRequest {
+}
+
+message RebootResponse {
+}
+
+message SpeedTestStats {
+  enum Target {
+     UNKNOWN = 0;
+     FASTCOM = 1;
+     CLOUDFLARE = 2;
+  }
+  float latency_ms = 3;
+  uint64 start_time = 4;
+  int64 upload_start_time = 5;
+  int64 download_start_time = 6;
+  float upload_mbps = 1;
+  float download_mbps = 2;
+  SpaceX.API.Device.SpeedTestStats.Target target = 7;
+  uint32 tcp_streams = 8;
+}
+
+message ClientPlatform {
+  enum Platform {
+     UNKNOWN = 0;
+     IOS = 1;
+     ANDROID = 2;
+     WEB = 3;
+  }
+  SpaceX.API.Device.ClientPlatform.Platform platform = 1;
+  float major_version = 2;
+  float minor_version = 3;
+}
+
+message SpeedTestRequest {
+  uint32 id = 4;
+  SpaceX.API.Device.SpeedTestStats client_speedtest = 1;
+  float client_rssi = 2;
+  SpaceX.API.Device.ClientPlatform client_platform = 3;
+}
+
+message SpeedTestResponse {
+  float download_bps = 1;
+  float upload_bps = 2;
+  float latency_s = 3;
+  float download_mbps = 4;
+  float upload_mbps = 5;
+  float latency_ms = 6;
+  SpaceX.API.Device.SpeedTestStats router_speedtest = 15;
+  float download_mbps_1_tcp_conn = 7;
+  float upload_mbps_1_tcp_conn = 8;
+  float download_mbps_4_tcp_conn = 9;
+  float upload_mbps_4_tcp_conn = 10;
+  float download_mbps_16_tcp_conn = 11;
+  float upload_mbps_16_tcp_conn = 12;
+  float download_mbps_64_tcp_conn = 13;
+  float upload_mbps_64_tcp_conn = 14;
+}
+
+message GetConnectionsRequest {
+}
+
+message GetConnectionsResponse {
+  message ServiceConnection {
+    string address = 1;
+    int32 seconds_since_success = 2;
+  }
+  message ServicesEntry {
+    string key = 1;
+    SpaceX.API.Device.GetConnectionsResponse.ServiceConnection value = 2;
+  }
+  repeated SpaceX.API.Device.GetConnectionsResponse.ServicesEntry services = 1;
+}
+
+message GetDeviceInfoRequest {
+}
+
+message GetDeviceInfoResponse {
+  SpaceX.API.Device.DeviceInfo device_info = 1;
+}
+
+message SetTrustedKeysRequest {
+  repeated SpaceX.API.Device.PublicKey keys = 1;
+}
+
+message SetTrustedKeysResponse {
+}
+
+message SetSkuRequest {
+  string sku = 1;
+  string country_code = 2;
+  bool apply_country_code = 4;
+  bool pin_country_code = 5;
+  bool custom_power_table = 6;
+}
+
+message SetSkuResponse {
+}
+
+message UpdateRequest {
+}
+
+message UpdateResponse {
+}
+
+message RestartControlRequest {
+}
+
+message RestartControlResponse {
+}
+
+message GetNetworkInterfacesRequest {
+}
+
+message GetNetworkInterfacesResponse {
+  repeated SpaceX.API.Device.NetworkInterface network_interfaces = 1006;
+}
+
+message GetHeapDumpRequest {
+}
+
+message GetHeapDumpResponse {
+  string heap_dump = 1;
+}
+
+message GetLocationRequest {
+  SpaceX.API.Device.PositionSource source = 1;
+}
+
+message GetLocationResponse {
+  SpaceX.API.Device.LLAPosition lla = 1;
+  double sigma_m = 4;
+  SpaceX.API.Device.PositionSource source = 3;
+}
+
+message DishSetEmcRequest {
+  double theta = 1;
+  double phi = 2;
+  uint32 rx_chan = 3;
+  uint32 tx_chan = 4;
+  uint32 modulation = 5;
+  double desired_tilt_angle = 7;
+  bool chan_override = 8;
+  bool theta_enabled = 9;
+  bool phi_enabled = 10;
+  bool idle = 11;
+  bool fast_switching = 12;
+  bool sky_search = 13;
+  bool force_pll_unlock = 14;
+  bool force_eirp_failure = 15;
+  bool snow_active_override = 16;
+  bool manual_tilting = 18;
+  bool tilt_to_stowed = 19;
+  bool reboot = 20;
+  bool continuous_motor_test = 21;
+  double distance_override_meters = 22;
+  uint32 amplitude_taper_override = 23;
+  uint32 country_code_override = 24;
+  int32 tx_duty_cycle_override = 25;
+  int32 rx_duty_cycle_override = 26;
+  double eirp_legal_limit_dbw_override = 27;
+}
+
+message DishSetEmcResponse {
+}
+
+message DishGetEmcRequest {
+}
+
+message DishGetEmcResponse {
+  string uuid = 2;
+  uint64 timestamp = 3;
+  uint32 cplane_updates = 11;
+  double gps_latitude = 16;
+  double gps_longitude = 17;
+  double gps_pdop = 18;
+  uint32 rf_mode = 19;
+  double phi = 20;
+  double theta = 21;
+  uint32 rx_channel = 22;
+  uint32 tx_channel = 23;
+  float t_dbf_max = 24;
+  double t_center = 25;
+  bool auto_power_snow_melt_enabled = 30;
+  double voltage = 32;
+  uint32 rx_beam_state = 33;
+  uint32 tx_beam_state = 34;
+  uint32 half_duplex_state = 35;
+  bool manual_tilt_enabled = 36;
+  double tilt_angle = 37;
+  uint32 pll_tx_lock_detected = 38;
+  bool eirp_exceeded_threshold = 39;
+  float eirp_scale_override = 40;
+  bool idle_override_enabled = 41;
+  bool theta_override_enabled = 42;
+  double theta_override_value = 43;
+  bool phi_override_enabled = 44;
+  double phi_override_value = 45;
+  uint32 rx_chan_override_value = 46;
+  uint32 tx_chan_override_value = 47;
+  bool sky_search_override_enabled = 48;
+  bool fast_switching_enabled = 49;
+  uint32 modulation_override_value = 50;
+  bool force_eirp_failure = 51;
+  bool force_pll_unlock = 52;
+  uint32 ut_ine_success = 53;
+  bool rf_ready = 54;
+  bool tilt_to_stowed = 55;
+  bool reboot = 56;
+  bool continuous_motor_test = 57;
+  double distance_override_meters = 58;
+  uint32 amplitude_taper_override = 59;
+  bool amplitude_taper_enabled = 60;
+  double amplitude_taper_scale = 61;
+  uint32 country_code_override = 62;
+  double max_pointing_distance = 63;
+  double distance_scaling_factor = 64;
+  int32 tx_duty_cycle_override = 65;
+  int32 rx_duty_cycle_override = 66;
+  float tx_time_ms = 67;
+  float rx_time_ms = 68;
+  double eirp_legal_limit_dbw = 69;
+  double eirp_legal_limit_dbw_override = 70;
+}
+
+message GetPersistentStatsRequest {
+}
+
+message StartSpeedtestRequest {
+}
+
+message StartSpeedtestResponse {
+}
+
+message SpeedtestStatus {
+  message Direction {
+    repeated float throughputs_mbps = 1;
+    SpaceX.API.Device.SpeedtestError err = 2;
+  }
+  bool running = 1;
+  uint32 id = 2;
+  SpaceX.API.Device.SpeedtestStatus.Direction up = 1000;
+  SpaceX.API.Device.SpeedtestStatus.Direction down = 1001;
+}
+
+message GetSpeedtestStatusRequest {
+}
+
+message GetSpeedtestStatusResponse {
+  SpaceX.API.Device.SpeedtestStatus status = 1;
+}
+
+message ReportClientSpeedtestRequest {
+  uint32 id = 1;
+  SpaceX.API.Device.SpeedTestStats client_speedtest = 2;
+  SpaceX.API.Device.SpeedTestStats wifi_speedtest = 5;
+  float client_rssi = 3;
+  SpaceX.API.Device.ClientPlatform client_platform = 4;
+}
+
+message ReportClientSpeedtestResponse {
+}
+
+message DishPowerSaveRequest {
+  uint32 power_save_start_minutes = 1;
+  uint32 power_save_duration_minutes = 2;
+  bool enable_power_save = 3;
+}
+
+service Device {
+   rpc Stream(stream SpaceX.API.Device.ToDevice) returns (stream SpaceX.API.Device.FromDevice);
+   rpc Handle(SpaceX.API.Device.Request) returns (SpaceX.API.Device.Response);
+}
+

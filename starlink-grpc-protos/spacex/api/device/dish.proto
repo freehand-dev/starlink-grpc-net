@@ -1,0 +1,238 @@
+syntax = "proto3";
+import "spacex/api/device/common.proto";
+import "spacex/api/device/dish_config.proto";
+import "spacex/api/satellites/network/ut_disablement_codes.proto";
+package SpaceX.API.Device;
+
+enum UserMobilityClass {
+   STATIONARY = 0;
+   NOMADIC = 1;
+   MOBILE = 2;
+}
+
+enum SoftwareUpdateState {
+   SOFTWARE_UPDATE_STATE_UNKNOWN = 0;
+   IDLE = 1;
+   FETCHING = 2;
+   PRE_CHECK = 3;
+   WRITING = 4;
+   POST_CHECK = 5;
+   REBOOT_REQUIRED = 6;
+   DISABLED = 7;
+   FAULTED = 8;
+}
+
+enum UserClassOfService {
+   UNKNOWN_USER_CLASS_OF_SERVICE = 0;
+   CONSUMER = 1;
+   BUSINESS = 2;
+   BUSINESS_PLUS = 3;
+   COMMERCIAL_AVIATION = 4;
+}
+
+enum HasActuators {
+   HAS_ACTUATORS_UNKNOWN = 0;
+   HAS_ACTUATORS_YES = 1;
+   HAS_ACTUATORS_NO = 2;
+}
+
+enum DishState {
+   UNKNOWN = 0;
+   CONNECTED = 1;
+   SEARCHING = 2;
+   BOOTING = 3;
+}
+
+message DishStowRequest {
+  bool unstow = 1;
+}
+
+message DishStowResponse {
+}
+
+message DishGetContextRequest {
+}
+
+message DishGetContextResponse {
+  SpaceX.API.Device.DeviceInfo device_info = 1;
+  SpaceX.API.Device.DeviceState device_state = 7;
+  float obstruction_fraction = 2;
+  float obstruction_time = 20;
+  float obstruction_valid_s = 3;
+  bool obstruction_current = 12;
+  uint32 cell_id = 4;
+  uint32 pop_rack_id = 5;
+  uint32 initial_satellite_id = 8;
+  uint32 initial_gateway_id = 9;
+  bool on_backup_beam = 10;
+  float seconds_to_slot_end = 6;
+  bool debug_telemetry_enabled = 11;
+  float pop_ping_drop_rate_15s_mean = 13;
+  float pop_ping_latency_ms_15s_mean = 14;
+  float seconds_since_last_1s_outage = 15;
+  float seconds_since_last_2s_outage = 16;
+  float seconds_since_last_5s_outage = 17;
+  float seconds_since_last_15s_outage = 18;
+  float seconds_since_last_60s_outage = 19;
+}
+
+message DishOutage {
+  enum Cause {
+     UNKNOWN = 0;
+     BOOTING = 1;
+     STOWED = 2;
+     THERMAL_SHUTDOWN = 3;
+     NO_SCHEDULE = 4;
+     NO_SATS = 5;
+     OBSTRUCTED = 6;
+     NO_DOWNLINK = 7;
+     NO_PINGS = 8;
+     ACTUATOR_ACTIVITY = 9;
+     CABLE_TEST = 10;
+     SLEEPING = 11;
+     MOVING_WHILE_NOT_ALLOWED = 12;
+  }
+  SpaceX.API.Device.DishOutage.Cause cause = 1;
+  int64 start_timestamp_ns = 2;
+  uint64 duration_ns = 3;
+  bool did_switch = 4;
+}
+
+message DishGetHistoryResponse {
+  uint64 current = 1;
+  repeated float pop_ping_drop_rate = 1001;
+  repeated float pop_ping_latency_ms = 1002;
+  repeated float downlink_throughput_bps = 1003;
+  repeated float uplink_throughput_bps = 1004;
+  repeated SpaceX.API.Device.DishOutage outages = 1009;
+}
+
+message DishGetStatusResponse {
+  SpaceX.API.Device.DeviceInfo device_info = 1;
+  SpaceX.API.Device.DeviceState device_state = 2;
+  SpaceX.API.Device.DishAlerts alerts = 1005;
+  SpaceX.API.Device.DishOutage outage = 1014;
+  SpaceX.API.Device.DishGpsStats gps_stats = 1015;
+  float seconds_to_first_nonempty_slot = 1002;
+  float pop_ping_drop_rate = 1003;
+  float downlink_throughput_bps = 1007;
+  float uplink_throughput_bps = 1008;
+  float pop_ping_latency_ms = 1009;
+  SpaceX.API.Device.DishObstructionStats obstruction_stats = 1004;
+  bool stow_requested = 1010;
+  float boresight_azimuth_deg = 1011;
+  float boresight_elevation_deg = 1012;
+  int32 eth_speed_mbps = 1016;
+  SpaceX.API.Device.UserMobilityClass mobility_class = 1017;
+  bool is_snr_above_noise_floor = 1018;
+  SpaceX.API.Device.DishReadyStates ready_states = 1019;
+  SpaceX.API.Device.UserClassOfService class_of_service = 1020;
+  SpaceX.API.Device.SoftwareUpdateState software_update_state = 1021;
+  bool is_snr_persistently_low = 1022;
+  SpaceX.API.Device.HasActuators has_actuators = 1023;
+  SpaceX.API.Satellites.Network.UtDisablementCode disablement_code = 1024;
+  SpaceX.API.Device.DishConfig config = 2000;
+}
+
+message DishGetObstructionMapRequest {
+}
+
+message DishGetObstructionMapResponse {
+  uint32 num_rows = 1;
+  uint32 num_cols = 2;
+  repeated float snr = 3;
+  float min_elevation_deg = 4;
+}
+
+message DishAlerts {
+  bool motors_stuck = 1;
+  bool thermal_throttle = 3;
+  bool thermal_shutdown = 2;
+  bool mast_not_near_vertical = 5;
+  bool unexpected_location = 4;
+  bool slow_ethernet_speeds = 6;
+  bool roaming = 7;
+  bool install_pending = 8;
+  bool is_heating = 9;
+  bool power_supply_thermal_throttle = 10;
+  bool is_power_save_idle = 11;
+  bool moving_while_not_mobile = 12;
+  bool moving_fast_while_not_aviation = 13;
+}
+
+message DishReadyStates {
+  bool cady = 1;
+  bool scp = 2;
+  bool l1l2 = 3;
+  bool xphy = 4;
+  bool aap = 5;
+  bool rf = 6;
+}
+
+message DishGpsStats {
+  bool gps_valid = 1;
+  uint32 gps_sats = 2;
+  bool no_sats_after_ttff = 3;
+}
+
+message DishObstructionStats {
+  bool currently_obstructed = 5;
+  float fraction_obstructed = 1;
+  float time_obstructed = 9;
+  float valid_s = 4;
+  float avg_prolonged_obstruction_duration_s = 6;
+  float avg_prolonged_obstruction_interval_s = 7;
+  bool avg_prolonged_obstruction_valid = 8;
+}
+
+message DishAuthenticateResponse {
+  SpaceX.API.Device.ChallengeResponse dish = 2;
+}
+
+message SelfTestRequest {
+  bool detailed = 1;
+}
+
+message SelfTestResponse {
+  bool passed = 1;
+  string report = 2;
+}
+
+message StartDishSelfTestRequest {
+}
+
+message StartDishSelfTestResponse {
+}
+
+message SetTestModeRequest {
+  enum RfMode {
+     RX = 0;
+     IDLE = 1;
+     TX = 2;
+     CAL = 3;
+     USER = 4;
+     NORMAL = 420;
+  }
+  SpaceX.API.Device.SetTestModeRequest.RfMode rf_mode = 1;
+  bool disable_loss_of_comm_fdir = 1001;
+  bool enable_rules_override = 1002;
+}
+
+message SetTestModeResponse {
+}
+
+message DishSetConfigRequest {
+  SpaceX.API.Device.DishConfig dish_config = 1;
+}
+
+message DishSetConfigResponse {
+  SpaceX.API.Device.DishConfig updated_dish_config = 1;
+}
+
+message DishGetConfigRequest {
+}
+
+message DishGetConfigResponse {
+  SpaceX.API.Device.DishConfig dish_config = 1;
+}
+
